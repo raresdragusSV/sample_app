@@ -32,6 +32,7 @@ group :test do
   gem 'minitest'
   gem 'rb-inotify', '0.8.8'
   gem 'libnotify', '0.5.9'
+  gem 'factory_girl_rails', '4.1.0'
 end
 
 group :production do
