@@ -15,7 +15,7 @@ describe "Authentication" do
 
     describe 'with invalid information' do
       before { click_button 'Sign in' }
-      it { should have_selector 'title',                 text: 'Sign in' }
+      it { should have_selector 'title', text: 'Sign in' }
       it { should have_error_message('Invalid') }
 
       describe 'after visiting another page' do
