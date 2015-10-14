@@ -36,12 +36,12 @@ group :test do
   gem 'database_cleaner', '0.7.0'
   gem 'test-unit'
   gem 'minitest'
-  gem 'rb-inotify', '0.8.8'
+  gem 'rb-inotify', '0.9.0'
   gem 'libnotify', '0.5.9'
 
-  # gem 'launchy', '2.1.0'
-  # gem 'rb-fsevent', '0.9.1', :require => false
-  # gem 'growl', '1.0.3'
+  gem 'launchy', '2.1.0'
+  gem 'rb-fsevent', '0.9.1', :require => false
+  gem 'growl', '1.0.3'
 end
 
 group :production do

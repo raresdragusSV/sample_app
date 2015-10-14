@@ -122,7 +122,7 @@ describe "Authentication" do
 
       describe 'should not be able to delete themselves' do
         specify do
-          expect { delete user_path(admin) }.not_to change(User, :count).by(-1)
+          expect { delete user_path(admin) }.not_to change(User, :count)
         end
       end
     end

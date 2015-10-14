@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :info_signed_in_user, only: [:new, :create]
   before_filter :signed_in_user,      only: [:index, :edit, :update, :destroy]
   before_filter :correct_user,        only: [:edit, :update]
   before_filter :admin_user,          only: :destroy
+  before_filter :info_signed_in_user, only: [:new, :create]
 
 
   def index
@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    #@microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id])
+    user = User.find(params[:id])
     unless current_user?(user)
       user.destroy
       flash[:success] = "User deleted."
@@ -69,6 +70,6 @@ class UsersController < ApplicationController
   end
 
   def info_signed_in_user
-       redirect_to root_url, notice: "You are registered." if signed_in?
-    end
+    redirect_to root_url, notice: "You are registered." if signed_in?
+  end
 end
