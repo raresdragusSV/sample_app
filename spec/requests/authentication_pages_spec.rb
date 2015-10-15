@@ -39,13 +39,14 @@ describe "Authentication" do
       describe 'followed by signout' do
         before { click_link 'Sign out' }
 
+        # ------- Ex 9.3 --------
         it { should_not have_link 'Users',       href: users_path }
         it { should_not have_link 'Profile',     href: user_path(user) }
         it { should_not have_link 'Settings',    href: edit_user_path(user) }
         it { should_not have_link 'Sign out',    href: signout_path }
         it { should have_link 'Sign in' }
       end
-
+      # ------- Ex 9.6 -------
       describe "don't have access users#new" do
         before { get new_user_path }
         specify { response.should redirect_to(root_path) }
@@ -63,12 +64,13 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
 
       describe 'should not have navigation links Users, Profile and Settings' do
+        # ------- Ex 9.3 --------
         it { should_not have_link 'Users',       href: users_path }
         it { should_not have_link 'Profile',     href: user_path(user) }
         it { should_not have_link 'Settings',    href: edit_user_path(user) }
         it { should_not have_link 'Sign out',    href: signout_path }
       end
-
+        # ------- Ex 9.8 -------
       describe 'when attempting to visit a protected page' do
         before do
           visit edit_user_path(user)
@@ -133,7 +135,7 @@ describe "Authentication" do
     describe 'as admin user' do
       let(:admin) { FactoryGirl.create(:admin) }
       before { sign_in admin }
-
+      # ------- Ex 9.9 -------
       describe 'should not be able to delete themselves' do
         specify do
           expect { delete user_path(admin) }.not_to change(User, :count)
@@ -147,7 +149,7 @@ describe "Authentication" do
 
       before { sign_in non_admin }
 
-      describe 'submitting a DELETE request to the User#destroy action' do
+      describe 'submitting a DELETE request to the User#destroy' do
         before { delete user_path(user) }
         specify { response.should redirect_to root_url }
       end

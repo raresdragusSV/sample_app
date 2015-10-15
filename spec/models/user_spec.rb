@@ -29,6 +29,13 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:microposts) }
   it { should respond_to(:feed) }
+  it { should respond_to(:relationships) }
+  it { should respond_to(:followed_users) }
+  it { should respond_to(:reverse_relationships) }
+  it { should respond_to(:followers) }
+  it { should respond_to(:following?) }
+  it { should respond_to(:follow!) }
+  it { should respond_to(:unfollow!) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -41,7 +48,7 @@ describe User do
 
     it { should be_admin }
   end
-
+  # ------- Ex 9.1 -------
   describe "accesible attributes" do
     it "should not allow access to admin" do
       expect { User.new(admin: true) }.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
@@ -105,21 +112,25 @@ describe User do
 
   describe 'when password is not present' do
     before { @user.password = @user.password_confirmation = ' ' }
+
     it { should_not be_valid }
   end
 
   describe "when password doesn't match confirmation" do
     before { @user.password_confirmation = 'mismatch' }
+
     it { should_not be_valid }
   end
 
   describe 'when password confirmation is nil' do
     before { @user.password_confirmation = nil }
+
     it { should_not be_valid }
   end
 
   describe 'with a password that is too short' do
     before { @user.password = @user.password_confirmation = 'a' * 5 }
+
     it { should be_invalid }
   end
 
@@ -159,7 +170,7 @@ describe User do
       @user.microposts.should == [newer_micropost, older_micropost]
     end
 
-     it "should destroy associated microposts" do
+    it "should destroy associated microposts" do
       microposts = @user.microposts.dup
       @user.destroy
       microposts.should_not be_empty
@@ -173,9 +184,32 @@ describe User do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
 
-      its(:feed) { should include(newer_micropost) }
-      its(:feed) { should include(older_micropost) }
-      its(:feed) { should_not include(unfollowed_post) }
+      its(:feed) { should include newer_micropost }
+      its(:feed) { should include older_micropost }
+      its(:feed) { should_not include unfollowed_post }
+    end
+  end
+
+  describe 'following' do
+    let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      @user.save
+      @user.follow!(other_user)
+    end
+
+    it { should be_following(other_user) }
+    its(:followed_users) { should include other_user }
+
+    describe 'followed user' do
+      subject { other_user }
+      its(:followers) { should include(@user) }
+    end
+
+    describe 'and unfollowing' do
+      before { @user.unfollow!(other_user) }
+
+      it { should_not be_following(other_user) }
+      its(:followed_users) { should_not include(other_user) }
     end
   end
 end

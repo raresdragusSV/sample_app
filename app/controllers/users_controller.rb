@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :signed_in_user,      only: [:index, :edit, :update, :destroy]
   before_filter :correct_user,        only: [:edit, :update]
   before_filter :admin_user,          only: :destroy
+  # ------- Ex 9.6 -------
   before_filter :info_signed_in_user, only: [:new, :create]
 
 
