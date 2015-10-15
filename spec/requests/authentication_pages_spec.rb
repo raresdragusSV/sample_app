@@ -151,6 +151,14 @@ describe "Authentication" do
         before { delete user_path(user) }
         specify { response.should redirect_to root_url }
       end
+
+      # ------- Ex 10.4 -------
+      describe  "should not delete others microposts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before { visit user_path(other_user) }
+
+        it { should_not have_link('delete') }
+      end
     end
 
     describe 'as wrong user' do

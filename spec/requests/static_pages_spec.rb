@@ -28,10 +28,32 @@ describe "Static pages" do
 
       it "should render the user's feed" do
         user.feed.each do |item|
-          page.should have_selector "li##{item.id}", text: item.content
+          should have_selector "li##{item.id}", text: item.content
+        end
+      end
+
+      # ------- Ex 10.1 -------
+      describe 'micropost count' do
+        before { click_link 'delete' }
+
+        it 'should be one micropost' do
+          should have_selector("span", text: "1 micropost")
         end
       end
     end
+  end
+
+  # ------- Ex 10.2 -------
+  describe 'microposts pagination' do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      50.times { FactoryGirl.create(:micropost, user: user) }
+      sign_in user
+      visit root_path
+    end
+    after { user.microposts.destroy_all }
+
+    it { should have_selector 'div.pagination' }
   end
 
   describe "Help page" do

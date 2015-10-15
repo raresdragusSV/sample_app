@@ -6,20 +6,15 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.0.1'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
-gem 'jquery-rails' , '2.0.2'
-gem 'rails_12factor'
+gem 'jquery-rails', '2.0.2'
 
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails', '2.11.0'
-  gem 'guard-rspec', '1.2.1'
-  gem 'guard-spork', '1.2.0'
-  gem 'childprocess', '0.3.6'
-  gem 'spork', '0.9.2'
-end
-
-group :development do
-  gem 'annotate', '2.5.0'
+  # gem 'guard-rspec', '1.2.1'
+  # gem 'guard-spork', '1.2.0'
+  # gem 'childprocess', '0.3.6'
+  # gem 'spork', '0.9.2'
 end
 
 group :assets do
