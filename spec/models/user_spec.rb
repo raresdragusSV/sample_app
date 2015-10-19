@@ -234,4 +234,15 @@ describe User do
       end
     end
   end
+
+  describe 'handling replies' do
+    before do
+      @reply_to_user = FactoryGirl.create(:userToReplyTo)
+    end
+
+    it 'should be findable by shorthand name' do
+      user = User.find_by_shorthand('Donald_Duck')
+      user.should == @reply_to_user
+    end
+  end
 end
