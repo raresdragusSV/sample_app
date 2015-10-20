@@ -11,16 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20151020112851) do
+=======
+ActiveRecord::Schema.define(:version => 20151019135223) do
+
+  create_table "direct_messages", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "content"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "direct_messages", ["recipient_id"], :name => "index_direct_messages_on_recipient_id"
+  add_index "direct_messages", ["sender_id"], :name => "index_direct_messages_on_sender_id"
+>>>>>>> 8624992d564e7da4a450bf0363a54b58ab952df5
 
   create_table "microposts", :force => true do |t|
     t.string   "content"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "in_reply_to"
   end
-
-  add_index "microposts", ["user_id", "created_at"], :name => "index_microposts_on_user_id_and_created_at"
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
