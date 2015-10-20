@@ -13,7 +13,6 @@
               Account <em class="caret"></em></a>
               <ul class="dropdown-menu">
                 <li><%= link_to 'Profile', current_user %></li>
-                <li><%= link_to "Direct Messages", received_direct_messages_path %></li>
                 <li><%= link_to 'Settings', edit_user_path(current_user) %></li>
                 <li class="divider"></li>
                 <li><%= link_to 'Sign out', signout_path, method: 'delete' %></li>
