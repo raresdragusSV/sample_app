@@ -220,6 +220,7 @@ DEPENDENCIES
   jquery-rails
   launchy (= 2.1.0)
   libnotify (= 0.5.9)
+  mail
   minitest
   pg
   rails (= 3.2.16)

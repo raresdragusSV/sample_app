@@ -10,7 +10,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :password, :password_confirmation
+  attr_accessible :email, :name, :password, :password_confirmation, :following_email
   has_secure_password
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: 'follower_id',

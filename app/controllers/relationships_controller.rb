@@ -6,6 +6,9 @@ class RelationshipsController < ApplicationController
 
   def create
     @user = User.find(params[:relationship][:followed_id])
+    if @user.following_email == 1
+      UserMailer.following_confirmation(@user, current_user).deliver
+    end
     current_user.follow!(@user)
     respond_with @user
   end
