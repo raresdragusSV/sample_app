@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
                        source: :follower
 
   before_save { |user| user.email = email.downcase }
-  before_save :create_remember_token
+  before_create :create_remember_token
 
   state_machine do
     state :inactive
