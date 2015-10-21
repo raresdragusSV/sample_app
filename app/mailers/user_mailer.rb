@@ -11,4 +11,10 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => "#{@user.name} <#{@user.email}>", :subject => 'Password Reset')
   end
+
+  def signup_confirmation(user)
+    @user = user
+    @confirmation_uri = "http://localhost:3000#{confirm_user_path(@user.remember_token)}"
+    mail(:to => "#{@user.name} <#{@user.email}>", :subject => 'Confirmation Account')
+  end
 end

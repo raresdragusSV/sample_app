@@ -22,9 +22,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      flash[:success] = 'Welcome to the Sample App!'
-      sign_in @user
-      redirect_to @user
+      UserMailer.signup_confirmation(@user).deliver
+      flash[:notice] = 'To complete registration, please check you email'
+      redirect_to root_url
     else
       render 'new'
     end
@@ -64,6 +64,26 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
+  end
+
+  def confirm
+    @user = User.find_by_remember_token(params[:id])
+    if @user
+      if @user.state == 'inactive'
+        @user.activate!
+        sign_in @user
+        flash[:success] = "Account confirmed. Welcome #{@user.name}!"
+        redirect_to @user
+      else
+        sign_out if signed_in?
+        flash[:notice] = 'Account is already activated. Please sign in instead.'
+        redirect_to signin_path
+      end
+    else
+      flash[:error] = 'Invalid confirmation token'
+      sign_out if signed_in?
+      redirect_to root_url
+    end
   end
 
   private
