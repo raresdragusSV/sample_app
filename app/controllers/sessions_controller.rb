@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
         else
           sign_in_without_remember(user)
         end
-        redirect_back_or user
+        redirect_back_or root_url
       end
     else
       flash.now[:error] = 'Invalid email/password combination'

@@ -41,9 +41,15 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }, on: :create
-  validates :password_confirmation, presence: true, on: :create
+  validates :password, presence: true, length: { minimum: 6 }, :if => :password_required?
+  validates :password_confirmation, presence: true, :if => :password_required?
   after_validation { self.errors.messages.delete(:password_digest) }
+
+  def password_required?
+    # Validation required if this is a new record or the password is being
+    # updated.
+    self.new_record? || !self.password.nil?
+  end
 
   def feed
     Micropost.from_users_followed_by(self)
@@ -64,7 +70,7 @@ class User < ActiveRecord::Base
   def send_password_reset
     self.password_reset_token = SecureRandom.urlsafe_base64
     self.password_reset_sent_at = Time.zone.now
-    save!
+    save!(validate: false)
     UserMailer.password_reset(self).deliver
   end
 
